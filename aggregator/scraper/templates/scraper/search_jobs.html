@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<style>
+/* Fallback colors so buttons NEVER disappear even if external CSS is cached/missing */
+.btn-jo-cta{
+  background-color: var(--jo-cta, #6f42c1);
+  border-color: var(--jo-cta, #6f42c1);
+  color: var(--jo-contrast, #ffffff) !important;
+}
+.btn-jo-apply{
+  background-color: var(--jo-apply, #0d9488);
+  border-color: var(--jo-apply, #0d9488);
+  color: var(--jo-contrast, #ffffff) !important;
+}
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid mt-3 px-3 px-md-4">
+
+  <!-- User Welcome + Logout -->
+  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-4">
+    <h2 class="text-light">Welcome, {{ request.user.email }}</h2>
+    <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
+  </div>
+
+  {% if jobs %}
+  <!-- Second Part: Jobs Table -->
+  <div class="card shadow-lg p-4 bg-dark text-light">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-2 mb-3">
+      <h3 class="mb-0">Your Job Results</h3>
+
+      <!-- Filters + Actions -->
+      <form method="get" class="d-flex flex-wrap gap-2 align-items-center">
+        <!-- Location filter -->
+        <label for="locSelect" class="form-label mb-0 me-1 text-light">Location</label>
+        <select id="locSelect" name="loc" class="form-select form-select-sm w-auto bg-light">
+          <option value="all" {% if selected_loc == 'all' %}selected{% endif %}>All locations</option>
+          {% for loc in locations %}
+            <option value="{{ loc }}" {% if selected_loc == loc %}selected{% endif %}>{{ loc }}</option>
+          {% endfor %}
+        </select>
+
+        <!-- Sort option -->
+        <label for="sortSelect" class="form-label mb-0 ms-2 me-1 text-light">Sort</label>
+        <select id="sortSelect" name="sort" class="form-select form-select-sm w-auto bg-light">
+          <option value="db" {% if sort_order == 'db' %}selected{% endif %}>Default</option>
+          <option value="latest" {% if sort_order == 'latest' %}selected{% endif %}>Latest first</option>
+          <option value="oldest" {% if sort_order == 'oldest' %}selected{% endif %}>Oldest first</option>
+        </select>
+
+        <button type="submit" class="btn btn-sm btn-outline-light">Apply</button>
+        <a href="{% url 'search_jobs' %}?fresh=1" class="btn btn-jo-cta btn-jo-cta-md btn-sm ms-1">Find New Jobs</a>
+      </form>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover table-dark table-bordered table-sm align-middle text-center">
+        <thead class="table-primary">
+          <tr>
+            <th>Profile</th>
+            <th>Experience</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Posted</th>
+            <th>Source</th>
+            <th class="apply-col">Apply</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for job in jobs %}
+          <tr>
+            <td class="text-wrap">{{ job.profile }}</td>
+            <td class="text-wrap">{{ job.experience }}</td>
+            <td class="text-wrap">{{ job.company }}</td>
+            <td class="text-wrap">{{ job.location }}</td>
+            <td class="text-wrap">{{ job.posted_on }}</td>
+            <td class="text-wrap">{{ job.source }}</td>
+            <td class="apply-col text-nowrap">
+              <a href="{{ job.apply_link }}" target="_blank" class="btn btn-sm btn-jo-apply">Apply</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- First Part: Search Form -->
+  <section class="jo-search-section">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+        <div class="card jo-search-card shadow-lg p-4 p-md-5">
+          <h2 class="jo-hero-title text-center mb-4">
+            Explore all jobs at <span class="accent">One Place @ JobOrbit</span> 🚀
+          </h2>
+          <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label">Job Profile</label>
+              <input type="text" name="jobprofile" class="form-control" placeholder="e.g. Python Developer" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Country</label>
+              <select name="location" class="form-select" id="countrySelect" required>
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+                <option value="Canada">Canada</option>
+                <option value="Germany">Germany</option>
+                <option value="Australia">Australia</option>
+                <option value="France">France</option>
+                <option value="Japan">Japan</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="Sweden">Sweden</option>
+                <option value="South Korea">South Korea</option>
+                <option value="Other">Other</option>
+              </select>
+
+              <!-- Hidden input for "Other" option -->
+              <input type="text" name="otherCountry" id="otherCountry" class="form-control mt-2" placeholder="Enter your country" style="display:none;" />
+            </div>
+            <button type="submit" class="btn btn-jo-cta w-100">Get Hired</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    document.getElementById('countrySelect').addEventListener('change', function () {
+        const otherInput = document.getElementById('otherCountry');
+        if (this.value === 'Other') {
+        otherInput.style.display = 'block';
+        otherInput.required = true;
+        } else {
+        otherInput.style.display = 'none';
+        otherInput.required = false;
+        }
+    });
+    </script>
+
+  {% endif %}
+</div>
+
+{% endblock %}
+

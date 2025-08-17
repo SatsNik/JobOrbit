@@ -1,0 +1,230 @@
+/* ===== JobOrbit UI — cleaned & centered =====
+   - Removed unused rules (jo-auth-section, jo-banner, jo-brand, heavy column hard-fixes)
+   - Kept/standardized variables, buttons, search section, glass card, hero text
+   - Centered auth wrappers vertically with a subtle gradient panel
+================================================ */
+
+/* Theme variables (used across pages/buttons) */
+:root {
+  /* Primary CTA */
+  --jo-cta: #1ca479;
+  --jo-cta-hover: #1a8f69;
+  --jo-cta-font: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* Apply button */
+  --jo-apply: #c74721;
+  --jo-apply-hover: #a63e1d;
+  --jo-apply-font: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* Shared */
+  --jo-contrast: #ffffff;
+  --jo-btn-weight: 600;
+  --jo-focus-ring: rgba(37,99,235,.35);
+}
+
+/* ===== Centered gradient wrapper for auth pages ===== */
+.jo-page-wrap{
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(37,99,235,.08), transparent 60%),
+    radial-gradient(1200px 600px at 90% 20%, rgba(34,197,94,.08), transparent 60%),
+    linear-gradient(180deg, rgba(2,8,23,.03), rgba(2,8,23,.06));
+  border-radius: 1.25rem;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  box-shadow: 0 15px 35px rgba(2,8,23,.08);
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+
+  /* Center hero + card vertically within the panel */
+  min-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .75rem;
+}
+
+/* ===== Buttons (primary CTA + apply) ===== */
+.btn-jo-cta {
+  background-color: var(--jo-cta);
+  border-color: var(--jo-cta);
+  color: var(--jo-contrast) !important;
+  font-family: var(--jo-cta-font);
+  font-weight: var(--jo-btn-weight);
+}
+.btn-jo-cta:hover,
+.btn-jo-cta:focus {
+  background-color: var(--jo-cta-hover);
+  border-color: var(--jo-cta-hover);
+  color: var(--jo-contrast) !important;
+}
+
+.btn-jo-apply {
+  background-color: var(--jo-apply);
+  border-color: var(--jo-apply);
+  color: var(--jo-contrast) !important;
+  font-family: var(--jo-apply-font);
+  font-weight: var(--jo-btn-weight);
+}
+.btn-jo-apply:hover,
+.btn-jo-apply:focus {
+  background-color: var(--jo-apply-hover);
+  border-color: var(--jo-apply-hover);
+  color: var(--jo-contrast) !important;
+}
+
+/* Ensure visibility + consistent border */
+.btn-jo-cta,
+.btn-jo-apply {
+  display: inline-block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  border-width: 1.5px;
+  border-style: solid;
+}
+
+/* Accessible focus */
+.btn-jo-cta:focus,
+.btn-jo-apply:focus {
+  box-shadow: 0 0 0 .25rem var(--jo-focus-ring);
+  outline: 0;
+}
+
+/* Sizing tweaks */
+.btn-jo-cta.btn-jo-cta-md {
+  padding: .45rem .9rem;
+  font-size: .925rem;
+  border-radius: .42rem;
+}
+.btn-jo-apply.btn-sm {
+  padding: .20rem .55rem;
+  font-size: .80rem;
+  line-height: 1.2;
+}
+@media (max-width: 400px) {
+  .btn-jo-cta.btn-sm,
+  .btn-jo-apply.btn-sm {
+    padding: .25rem .5rem;
+    font-size: .8rem;
+  }
+}
+
+/* ===== Search (home) section ===== */
+.jo-search-section {
+  padding: 2rem 0 3rem;
+  background: linear-gradient(135deg, rgba(37,99,235,.06), rgba(34,197,94,.06));
+  border-radius: 1rem;
+}
+.jo-search-card {
+  border-radius: 1rem;
+  background: #ffffff;
+  backdrop-filter: blur(2px);
+}
+.jo-hero-title {
+  font-weight: 800;
+  letter-spacing: .3px;
+  color: #0b1220;
+}
+.jo-hero-title .accent {
+  background: linear-gradient(90deg, var(--jo-cta), var(--jo-apply));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.jo-search-card .form-label {
+  font-weight: 600;
+  color: #1f2937; /* slate-800 */
+}
+.jo-search-card .form-control,
+.jo-search-card .form-select {
+  height: 48px;
+  border-radius: .6rem;
+  border: 1px solid #e5e7eb; /* slate-200 */
+}
+.jo-search-card .form-control:focus,
+.jo-search-card .form-select:focus {
+  border-color: var(--jo-cta);
+  box-shadow: 0 0 0 .25rem rgba(37,99,235,.15);
+}
+.jo-search-card .btn-jo-cta {
+  height: 48px;
+  font-size: 1rem;
+}
+@media (max-width: 576px) {
+  .jo-search-card .form-control,
+  .jo-search-card .form-select,
+  .jo-search-card .btn-jo-cta {
+    height: 44px;
+  }
+}
+
+/* ===== Glass card (auth forms) ===== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.glass-card .form-label {
+  font-weight: 600;
+  color: #1f2937; /* slate-800 */
+}
+.glass-card .form-control,
+.glass-card .form-select {
+  height: 46px;
+  border-radius: .6rem;
+  border: 1px solid #e5e7eb; /* slate-200 */
+}
+.glass-card .form-control:focus,
+.glass-card .form-select:focus {
+  border-color: var(--jo-cta);
+  box-shadow: 0 0 0 .25rem rgba(37,99,235,.15);
+}
+.glass-card .btn {
+  border-radius: .6rem;
+}
+
+/* ===== Page hero (title + intro) ===== */
+.jo-page-hero { padding: .75rem 0 1.0rem; width: 100%; max-width: 900px; margin: 0 auto; text-align: center; }
+@media (min-width: 768px) { .jo-page-hero { padding: 1.1rem 0 1.5rem; } }
+
+.jo-page-title {
+  font-size: clamp(2rem, 3.2vw + 1rem, 3rem);
+  font-weight: 900;
+  letter-spacing: .2px;
+  margin: 0 0 .25rem 0;
+  color: #0b1220;
+}
+.jo-page-title .accent {
+  background: linear-gradient(90deg, var(--jo-cta), var(--jo-apply));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.jo-page-lead {
+  font-size: clamp(1rem, .6vw + .8rem, 1.125rem);
+  color: #334155; /* slate-600 */
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Highlight for branded portal names in hero copy */
+.jo-portals { font-weight: 700; color: var(--jo-cta); }
+
+/* Keep rows inside wrapper nicely sized and centered */
+.jo-page-wrap > .row { width: 100%; max-width: 900px; margin: 0 auto; }
+
+/* ===== Jobs table minor tweaks ===== */
+.table .apply-col {
+  width: 96px;
+  min-width: 88px;
+  white-space: nowrap;
+}
+@media (max-width: 576px) {
+  .table .apply-col { width: 84px; min-width: 80px; }
+}
