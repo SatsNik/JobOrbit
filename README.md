@@ -1,6 +1,7 @@
-# JobOrbit: Your Personal Job Aggregator
-
+# JobOrbit: All jobs at ONE Place
 JobOrbit is a powerful, personalized job scraping and aggregation platform designed to streamline your job search. It fetches job listings from various online sources, collates them into a unified dashboard, and provides tools to filter and manage applications, saving you time and effort.
+
+**Live : https://joborbit-3.onrender.com/
 
 ## Core Features
 
@@ -14,7 +15,7 @@ JobOrbit is a powerful, personalized job scraping and aggregation platform desig
 
 *   **Backend**: Python, Django
 *   **Frontend**: HTML, CSS, JavaScript
-*   **Database**: SQLite (or other Django-supported DB)
+*   **Database**: PostgreSQL
 *   **Scraping**: Utilizes libraries like Beautiful Soup and Selenium.
 
 ## Getting Started
